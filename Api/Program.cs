@@ -1,5 +1,6 @@
 using Api.Interfaces;
 using Api.Services;
+using Microsoft.OpenApi;
 
 namespace Api
 {
@@ -13,9 +14,9 @@ namespace Api
             builder.Services.AddSwaggerGen();
             builder.Services.AddEndpointsApiExplorer();
 
-            //builder.Services.AddTransient<IOperationService, OperationServices>();
+            builder.Services.AddTransient<IOperationService, OperationServices>();
              //builder.Services.AddScoped<IOperationService, OperationServices>();
-             builder.Services.AddSingleton<IOperationService, OperationServices>();
+             //builder.Services.AddSingleton<IOperationService, OperationServices>();
 
             builder.Services.AddControllers();
 
@@ -23,7 +24,10 @@ namespace Api
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
+                app.UseSwagger(options =>
+                {
+                    options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+                });
                 app.UseSwaggerUI();
             }
 
